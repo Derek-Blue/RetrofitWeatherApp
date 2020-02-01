@@ -1,7 +1,6 @@
 package com.example.retrofitweatherapp.Adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofitweatherapp.Model.Weather;
+import com.example.retrofitweatherapp.Model.Factor;
 import com.example.retrofitweatherapp.R;
 
 import java.util.List;
@@ -18,11 +17,11 @@ import java.util.List;
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
 
     private Context context;
-    private List<Weather> weathers;
+    private List<Factor> factors;
 
-    public WeatherAdapter(Context context, List<Weather> weathers) {
+    public WeatherAdapter(Context context, List<Factor> factors) {
         this.context = context;
-        this.weathers = weathers;
+        this.factors = factors;
     }
 
     @NonNull
@@ -35,34 +34,38 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Weather weather = weathers.get(position);
+        Factor factor = factors.get(position);
 
-        holder.text_date.setText(weather.getTime().subSequence(5,16));
+        holder.text_date.setText(factor.getTime().subSequence(5,13)+"H");
+        holder.text_mt.setText(factor.getMin_t()+"~"+factor.getMax_t()+"℃");
+        holder.text_rh.setText(factor.getRh()+"%");
 
-        holder.text_t.setText(weather.getT()+" ℃");
-
-        if (weather.getPop().equals(" ")){
+        if (factor.getPop().equals(" ")){
             holder.text_pop.setText("-");
         }else {
-            holder.text_pop.setText(weather.getPop()+" %");
+            holder.text_pop.setText(factor.getPop()+"%");
         }
+
+        holder.discription.setText(factor.getDiscription());
     }
 
     @Override
     public int getItemCount() {
-        return weathers.size();
+        return factors.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView text_date, text_t, text_pop;
+        public TextView text_date, text_mt, text_rh, text_pop, discription;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             text_date = itemView.findViewById(R.id.text_date);
-            text_t = itemView.findViewById(R.id.text_t);
+            text_mt = itemView.findViewById(R.id.text_mt);
+            text_rh = itemView.findViewById(R.id.text_rh);
             text_pop = itemView.findViewById(R.id.text_pop);
+            discription = itemView.findViewById(R.id.discription);
         }
     }
 }

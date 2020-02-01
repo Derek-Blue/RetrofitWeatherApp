@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="5dp">
+        android:text="02-02 00H"
+        android:textSize="15dp"
+        android:textColor="#0000CC"
+        android:background="@drawable/back_date"
+        android:padding="5dp"
+        android:maxLines="1"
+        android:layout_marginLeft="2dp"/>
 
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="07-17 12:00"
-            android:textSize="18dp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:background="@drawable/back_date"
-            android:gravity="center"
-            android:inputType="date"/>
+    <TextView
+        android:id="@+id/text_mt"
+        android:layout_toRightOf="@+id/text_date"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="20~30℃"
+        android:textSize="15dp"
+        android:textColor="#0000CC"
+        android:background="@drawable/back_date"
+        android:padding="5dp"
+        android:layout_marginLeft="-1dp"
+        android:maxLines="1"
+        android:gravity="right"/>
 
-        <TextView
-            android:id="@+id/text_t"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="26 ℃"
-            android:textSize="18dp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:background="@drawable/back_t"
-            android:gravity="center"
-            android:layout_marginLeft="35dp"/>
+    <TextView
+        android:id="@+id/text_rh"
+        android:layout_toRightOf="@+id/text_mt"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="80%"
+        android:textSize="15dp"
+        android:textColor="#0000CC"
+        android:background="@drawable/back_date"
+        android:padding="5dp"
+        android:layout_marginLeft="-1dp"
+        android:maxLines="1"
+        android:gravity="right"/>
 
-        <TextView
-            android:id="@+id/text_pop"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="100 %"
-            android:textSize="18dp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:background="@drawable/back_rh"
-            android:gravity="center"
-            android:layout_marginLeft="35dp"/>
+    <TextView
+        android:id="@+id/text_pop"
+        android:layout_toRightOf="@+id/text_rh"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="80%"
+        android:textSize="15dp"
+        android:textColor="#0000CC"
+        android:background="@drawable/back_date"
+        android:padding="5dp"
+        android:layout_marginLeft="-1dp"
+        android:maxLines="1"
+        android:gravity="right"/>
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/discription"
+        android:layout_toRightOf="@+id/text_pop"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="晴時多雲"
+        android:textSize="15dp"
+        android:textColor="#0000CC"
+        android:background="@drawable/back_date"
+        android:padding="5dp"
+        android:layout_marginLeft="-1dp"
+        android:maxLines="1"/>
 
 </RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="county">
+        <item>台北市</item>
+        <item>高雄市</item>
+    </array>
+
+</resources>
