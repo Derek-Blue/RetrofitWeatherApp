@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Factor> factors;
     private RecyclerView recyclerView;
 
-    private Spinner spinner;
+    public Spinner spinner;
 
     Call<Post> call;
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         factors = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://opendata.cwb.gov.tw/api/v1/rest/datastore/")
+                .baseUrl("https://opendata.cwb.gov.tw/api/v1/rest/datastore/") // 氣象局開放資料平台網址(前段)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         spinner.setOnItemSelectedListener(selectedListener);
     }
+
+
 
     private void getJson(){
 
@@ -73,32 +75,33 @@ public class MainActivity extends AppCompatActivity {
 
                 assert post != null;
                 List<Post.RecordsBean.LocationsBean.LocationBean.WeatherElementBean.TimeBean> timeBeans_pop =
-                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(0).getTime();
+                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(0).getTime(); //取得 PoP12H 降雨機率
 
                 List<Post.RecordsBean.LocationsBean.LocationBean.WeatherElementBean.TimeBean> timeBeans_rh =
-                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(1).getTime();
+                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(1).getTime(); //取得 RH 相對濕度
 
                 List<Post.RecordsBean.LocationsBean.LocationBean.WeatherElementBean.TimeBean> timeBeans_maxt =
-                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(2).getTime();
+                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(2).getTime(); //取得 MaxAT 最高體感溫度
 
                 List<Post.RecordsBean.LocationsBean.LocationBean.WeatherElementBean.TimeBean> timeBeans_disc =
-                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(3).getTime();
+                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(3).getTime(); //取得 Wx 天氣現象
 
                 List<Post.RecordsBean.LocationsBean.LocationBean.WeatherElementBean.TimeBean> timeBeans_mint =
-                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(4).getTime();
+                        post.getRecords().getLocations().get(0).getLocation().get(0).getWeatherElement().get(4).getTime(); //取得 MinAT 最低體感溫度
 
                 factors.clear();
                 int count = timeBeans_pop.size();
-                Log.d("W20", ""+count);
+                //Log.d("W20", ""+count);
                 for (int i=0; i<count; i++){
                     String date = timeBeans_pop.get(i).getStartTime();
                     String pop = timeBeans_pop.get(i).getElementValue().get(0).getValue();
                     String rh = timeBeans_rh.get(i).getElementValue().get(0).getValue();
                     String maxt = timeBeans_maxt.get(i).getElementValue().get(0).getValue();
-                    String disc = timeBeans_disc.get(i).getElementValue().get(0).getValue();
+                    String disc_txt = timeBeans_disc.get(i).getElementValue().get(0).getValue();
+                    String disc = timeBeans_disc.get(i).getElementValue().get(1).getValue();
                     String mint = timeBeans_mint.get(i).getElementValue().get(0).getValue();
 
-                    factors.add(new Factor(date,pop,rh,maxt,mint,disc));
+                    factors.add(new Factor(date,pop,rh,maxt,mint,disc,disc_txt));
                 }
                 weatherAdapter = new WeatherAdapter(MainActivity.this, factors);
                 recyclerView.setAdapter(weatherAdapter);
@@ -114,12 +117,22 @@ public class MainActivity extends AppCompatActivity {
     private Spinner.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (position){
-                case 0:
+            String s = parent.getSelectedItem().toString(); //取得Spinner 被選擇的內容
+            Log.d("Q200=",""+s);
+            switch (s){
+                case "台北市":
                     call = apIservice.getTaipei();
                     getJson();
                     break;
-                case 1:
+                case "新北市":
+                    call = apIservice.getHsinbei();
+                    getJson();
+                    break;
+                case "桃園市":
+                    call = apIservice.getTauyaun();
+                    getJson();
+                    break;
+                case "高雄市":
                     call = apIservice.getKaohsiung();
                     getJson();
                     break;

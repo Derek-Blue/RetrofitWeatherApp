@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="-1dp"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/text_date"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:text="02-02 00H"
-        android:textSize="15dp"
-        android:textColor="#0000CC"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:textColor="#000"
         android:background="@drawable/back_date"
         android:padding="5dp"
         android:maxLines="1"
-        android:layout_marginLeft="2dp"/>
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/text_mt"
@@ -57,17 +60,20 @@
         android:maxLines="1"
         android:gravity="right"/>
 
-    <TextView
-        android:id="@+id/discription"
+    <RelativeLayout
         android:layout_toRightOf="@+id/text_pop"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="晴時多雲"
-        android:textSize="15dp"
-        android:textColor="#0000CC"
+        android:layout_height="30dp"
         android:background="@drawable/back_date"
-        android:padding="5dp"
         android:layout_marginLeft="-1dp"
-        android:maxLines="1"/>
+        android:gravity="center">
+
+        <com.example.retrofitweatherapp.MyImageView
+            android:id="@+id/dis_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/w01"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -7,14 +7,16 @@ public class Factor {
     String max_t;
     String min_t;
     String discription;
+    String discription_txt;
 
-    public Factor(String time, String pop, String rh, String max_t, String min_t, String discription) {
+    public Factor(String time, String pop, String rh, String max_t, String min_t, String discription, String discription_txt) {
         this.time = time;
         this.pop = pop;
         this.rh = rh;
         this.max_t = max_t;
         this.min_t = min_t;
         this.discription = discription;
+        this.discription_txt = discription_txt;
     }
 
     public Factor() {
@@ -66,5 +68,13 @@ public class Factor {
 
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+
+    public String getDiscription_txt() {
+        return discription_txt;
+    }
+
+    public void setDiscription_txt(String discription_txt) {
+        this.discription_txt = discription_txt;
     }
 }
