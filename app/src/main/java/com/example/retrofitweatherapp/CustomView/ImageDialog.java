@@ -79,6 +79,7 @@ public class ImageDialog extends Dialog {
     //add
     public void windowDeploy(int x, int y){
         window = getWindow();
+        window.setWindowAnimations(R.style.dialogAnim);//設定彈出動畫
         window.setBackgroundDrawableResource(android.R.color.transparent);//設定背景透明
         WindowManager.LayoutParams params = window.getAttributes();
         params.x = x;
