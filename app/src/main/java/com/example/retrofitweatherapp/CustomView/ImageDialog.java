@@ -1,4 +1,4 @@
-package com.example.retrofitweatherapp;
+package com.example.retrofitweatherapp.CustomView;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.retrofitweatherapp.R;
 
 public class ImageDialog extends Dialog {
 

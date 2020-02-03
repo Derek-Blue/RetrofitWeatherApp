@@ -1,4 +1,4 @@
-package com.example.retrofitweatherapp;
+package com.example.retrofitweatherapp.CustomView;
 
 import android.content.Context;
 import android.util.AttributeSet;

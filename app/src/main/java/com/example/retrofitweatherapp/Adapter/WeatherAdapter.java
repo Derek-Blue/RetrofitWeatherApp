@@ -3,21 +3,18 @@ package com.example.retrofitweatherapp.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.retrofitweatherapp.ImageDialog;
+import com.example.retrofitweatherapp.CustomView.ImageDialog;
 import com.example.retrofitweatherapp.MainActivity;
 import com.example.retrofitweatherapp.Model.Factor;
-import com.example.retrofitweatherapp.MyImageView;
+import com.example.retrofitweatherapp.CustomView.MyImageView;
 import com.example.retrofitweatherapp.R;
 
 import java.util.List;
@@ -99,17 +96,17 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
                 String county = ((MainActivity)context).spinner.getSelectedItem().toString();
 
                 //取得螢幕高度
-                DisplayMetrics metrics = new DisplayMetrics();
-                ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                int window_hight = metrics.heightPixels;
+//                DisplayMetrics metrics = new DisplayMetrics();
+//                ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//                int window_hight = metrics.heightPixels;
 
                 //取得itemview的 XY 座標
-                int[] location =new int[2];
-                v.getLocationInWindow(location);
+//                int[] location =new int[2];
+//                v.getLocationInWindow(location);
 
                 //使用自定義Dialog
                 ImageDialog imageDialog = new ImageDialog(context, R.style.Theme_AppCompat_DayNight_Dialog,
-                        0,location[1]-(window_hight/2), //設定dialog出現的位置
+                        0,-250, //設定dialog出現的位置
                         holder.dis_image.getLastResourceId(), holder.dis_image.getTag().toString(),
                         factor.getTime().subSequence(0,16).toString(),holder.text_pop.getText().toString(),
                         holder.text_rh.getText().toString(), holder.text_mt.getText().toString(),
