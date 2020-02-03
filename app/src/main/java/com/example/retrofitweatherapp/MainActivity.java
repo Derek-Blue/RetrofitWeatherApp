@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinner = findViewById(R.id.spinner);;
-
         recyclerView = findViewById(R.id.recycleview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
         apIservice = retrofit.create(APIservice.class);
 
-        //記憶上回選擇的縣市(取)
-        SharedPreferences sharedPreferences = getSharedPreferences("SpinnerNum", MODE_PRIVATE);
-        int page = sharedPreferences.getInt("position", 0);
+        spinner = findViewById(R.id.spinner);
+        spinner.setDropDownWidth(350);
+        spinner.setDropDownVerticalOffset(120);
 
-        spinner.setSelection(page);
+        getLocationToSpinner();
 
         spinner.setOnItemSelectedListener(selectedListener);
     }
@@ -119,108 +118,59 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getLocationToSpinner(){
+        call = apIservice.getLocation();
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (!response.isSuccessful()){
+                    Log.d("G101","Code = "+ response.code());
+                    return;
+                }
+
+                Post post = response.body();
+
+                List<Post.RecordsBean.LocationsBean.LocationBean> locationBeans =
+                        post.getRecords().getLocations().get(0).getLocation();
+
+                ArrayList<String> locationName = new ArrayList<>();
+
+                for (Post.RecordsBean.LocationsBean.LocationBean locationBean : locationBeans){ //遍歷location下的陣列
+                    locationName.add(locationBean.getLocationName());
+                }
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                        R.layout.support_simple_spinner_dropdown_item,locationName);
+                spinner.setAdapter(arrayAdapter);
+
+                //記憶上回選擇的縣市(取)
+                SharedPreferences sharedPreferences = getSharedPreferences("SpinnerNum", MODE_PRIVATE);
+                int page = sharedPreferences.getInt("location", 9); // 設定第一次安裝時 預設選擇臺北市 (json陣列9)
+                spinner.setSelection(page);
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Log.d("G102",""+t.getMessage());
+            }
+        });
+    }
+
     private Spinner.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            //記憶上回選擇的縣市(存)
+            //取得Spinner 被選擇的內容
+            String locationName = parent.getSelectedItem().toString();
+            Log.d("Q200=",""+locationName);
+
+            //記憶上回選擇的位置(存)
             SharedPreferences.Editor editor = getSharedPreferences("SpinnerNum", MODE_PRIVATE).edit();
-            editor.putInt("position",position);
+            editor.putInt("location",position);
             editor.apply();
 
-            //取得Spinner 被選擇的內容
-            String s = parent.getSelectedItem().toString();
-            Log.d("Q200=",""+s);
-            switch (s){
-                case "台北市":
-                    call = apIservice.getTaipei();
-                    getJson();
-                    break;
-                case "新北市":
-                    call = apIservice.getHsinbei();
-                    getJson();
-                    break;
-                case "桃園市":
-                    call = apIservice.getTauyaun();
-                    getJson();
-                    break;
-                case "高雄市":
-                    call = apIservice.getKaohsiung();
-                    getJson();
-                    break;
-                case "基隆市":
-                    call = apIservice.getKeelung();
-                    getJson();
-                    break;
-                case "新竹縣":
-                    call = apIservice.getHsinchuCounty();
-                    getJson();
-                    break;
-                case "新竹市":
-                    call = apIservice.getHsinchuCity();
-                    getJson();
-                    break;
-                case "苗栗縣":
-                    call = apIservice.getMiaoli();
-                    getJson();
-                    break;
-                case "台中市":
-                    call = apIservice.getTaichung();
-                    getJson();
-                    break;
-                case "彰化縣":
-                    call = apIservice.getChanghwa();
-                    getJson();
-                    break;
-                case "南投縣":
-                    call = apIservice.getNantou();
-                    getJson();
-                    break;
-                case "雲林縣":
-                    call = apIservice.getYunlin();
-                    getJson();
-                    break;
-                case "嘉義縣":
-                    call = apIservice.getChayiCounty();
-                    getJson();
-                    break;
-                case "嘉義市":
-                    call = apIservice.getChayiCity();
-                    getJson();
-                    break;
-                case "台南市":
-                    call = apIservice.getTainan();
-                    getJson();
-                    break;
-                case "宜蘭縣":
-                    call = apIservice.getYilan();
-                    getJson();
-                    break;
-                case "花蓮縣":
-                    call = apIservice.getHualian();
-                    getJson();
-                    break;
-                case "台東縣":
-                    call = apIservice.getTaidong();
-                    getJson();
-                    break;
-                case "屏東縣":
-                    call = apIservice.getPingtung();
-                    getJson();
-                    break;
-                case "澎湖縣":
-                    call = apIservice.getPenghu();
-                    getJson();
-                    break;
-                case "金門縣":
-                    call = apIservice.getKinmen();
-                    getJson();
-                    break;
-                case "連江縣":
-                    call = apIservice.getLianzian();
-                    getJson();
-                    break;
-            }
+            call = apIservice.getWeather(locationName);
+            getJson();
         }
 
         @Override
