@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.retrofitweatherapp.Adapter.WeatherAdapter;
+import com.example.retrofitweatherapp.CustomView.PrDialog;
 import com.example.retrofitweatherapp.Model.Factor;
 
 import java.util.ArrayList;
@@ -62,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
         getLocationToSpinner();
 
         spinner.setOnItemSelectedListener(selectedListener);
-    }
 
+    }
 
     private void getJson(){
 
+        final PrDialog prDialog = new PrDialog(MainActivity.this, R.style.PrDialog,0,0);
+        prDialog.show();
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -109,16 +112,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 weatherAdapter = new WeatherAdapter(MainActivity.this, factors);
                 recyclerView.setAdapter(weatherAdapter);
+
+                prDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
                 Log.d("D102",""+t.getMessage());
+
+                prDialog.dismiss();
             }
         });
     }
 
     private void getLocationToSpinner(){
+
         call = apIservice.getLocation();
         call.enqueue(new Callback<Post>() {
             @Override
@@ -152,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
                 Log.d("G102",""+t.getMessage());
+
             }
         });
     }
