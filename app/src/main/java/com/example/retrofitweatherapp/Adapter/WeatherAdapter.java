@@ -46,7 +46,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
         final Factor factor = factors.get(position);
 
-        holder.text_date.setText(factor.getTime().subSequence(5,13)+"H");
+        if (factor.getTime().substring(11,13).equals("18")
+                || factor.getTime().substring(11, 13).equals("00")){
+            holder.text_date.setText(factor.getTime().subSequence(5,10)+"晚");
+        }else if(factor.getTime().substring(11,13).equals("06")
+                || factor.getTime().substring(11, 13).equals("12")){
+            holder.text_date.setText(factor.getTime().subSequence(5,10)+"早");
+        }
+        //holder.text_date.setText(factor.getTime().subSequence(5,13)+"H");
         holder.text_mt.setText(factor.getMin_t()+"~"+factor.getMax_t()+"℃");
         holder.text_rh.setText(factor.getRh()+"%");
 
